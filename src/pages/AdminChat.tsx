@@ -64,6 +64,11 @@ const AdminChat = () => {
     scrollToBottom();
   }, [messages]);
 
+  const filteredMessages = messages.filter(message =>
+    message.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    message.sender.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   // Auto scroll to bottom when new message is added
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -104,11 +109,6 @@ const AdminChat = () => {
       default: return 'bg-gray-500';
     }
   };
-
-  const filteredMessages = messages.filter(message =>
-    message.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    message.sender.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <MainLayout>
