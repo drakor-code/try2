@@ -22,6 +22,7 @@ import { Plus, Edit, Trash2, RefreshCw, Eye, Shield, User } from 'lucide-react';
 const initialUsers = [
   {
     id: 1,
+    userId: 1,
     fullName: 'أحمد محمد الإدارة',
     username: 'admin',
     email: 'admin@debt-iq.com',
@@ -31,6 +32,7 @@ const initialUsers = [
   },
   {
     id: 2,
+    userId: 2,
     fullName: 'سارة أحمد',
     username: 'sara.ahmed',
     email: 'sara@debt-iq.com',
@@ -40,6 +42,7 @@ const initialUsers = [
   },
   {
     id: 3,
+    userId: 3,
     fullName: 'محمد علي',
     username: 'mohammed.ali',
     email: 'mohammed@debt-iq.com',
@@ -99,9 +102,16 @@ const Users = () => {
 
     const now = new Date();
     const userId = editingUser?.id || Date.now();
+    
+    // Generate sequential user ID
+    const maxUserId = users.reduce((max, user) => {
+      return user.userId > max ? user.userId : max;
+    }, 0);
+    const newUserId = editingUser?.userId || (maxUserId + 1);
 
     const userData = {
       id: userId,
+      userId: newUserId,
       fullName: formData.fullName,
       username: formData.username,
       email: formData.email,
@@ -164,6 +174,7 @@ const Users = () => {
             <Table>
               <TableHeader>
                 <TableRow className="bg-accent/20">
+                  <TableHead className="text-right font-semibold">رقم المستخدم</TableHead>
                   <TableHead className="text-right font-semibold">{t('users.fullName')}</TableHead>
                   <TableHead className="text-right font-semibold">{t('users.username')}</TableHead>
                   <TableHead className="text-right font-semibold">{t('client.email')}</TableHead>
@@ -182,6 +193,7 @@ const Users = () => {
                       className="hover:bg-accent/10 transition-all duration-300 hover:scale-[1.01] animate-fade-in-up"
                       style={{ animationDelay: `${index * 0.05}s` }}
                     >
+                      <TableCell className="text-right font-medium text-primary">#{user.userId}</TableCell>
                       <TableCell className="text-right font-medium">{user.fullName}</TableCell>
                       <TableCell className="text-right">{user.username}</TableCell>
                       <TableCell className="text-right">{user.email}</TableCell>
